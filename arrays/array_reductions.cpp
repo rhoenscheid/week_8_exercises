@@ -17,24 +17,31 @@ int main()
     }
 
     const int bins = 101;
-    int histogram[101];
-    
-    for(int i = 0; i < bins; i++)
-    {
-        histogram[i] = 0;
-    }
+    //int histogram[101];
+    vector<int> histogram(bins, 0);
 
-#pragma omp parallel for reduction(+:histogram[:bins])
-    for(int i = 0; i < N; i++)
+#pragma omp parallel
     {
-        double x = rand_list[i];
-        if(x < -3 || x >= 3)
+        vector<int> partial_hist(bins, 0);
+        #pragma omp for
+        for(int i = 0; i < N; i++)
         {
-            continue;
+            double x = rand_list[i];
+            if(x < -3 || x >= 3)
+            {
+                continue;
+            }
+
+            int idx = static_cast<int>(((x + 3) / 6) * bins);
+            partial_hist[idx]++;
         }
 
-        int idx = static_cast<int>(((x + 3) / 6) * bins);
-        histogram[idx]++;
+        #pragma omp critical
+        for(int i = 0; i < bins; i++)
+        {
+            histogram[i] += partial_hist[i];
+        }
+        
     }
 
     for(int i = 0; i < bins; i++)
