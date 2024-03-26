@@ -1,0 +1,64 @@
+## Results for running serially
+
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 12906 ms
+
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 13942 ms
+
+## Results for running with private(z,c) reduction(+:n_outside) collapse(2)
+
+4 threads:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 9107 ms
+
+3 threads:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 11699 ms
+
+2 threads:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 12434 ms
+
+1 thread:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 14523 ms
+
+Clearly for 1 or 2 threads the OpenMP threading creates a bit more overhead than its worth.
+
+I will now try to run with different schedules.
+
+## Results for running with the above setting for OMP_NUM_THREADS = 4 with different schedules
+
+static schedule:
+Run 1:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 7902 ms
+Run 2:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 8738 ms
+Run 3:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 8827 ms
+
+dynamic schedule:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 8382 ms
+
+guided schedule:
+Area of Mandelbrot set = 1.51309
+Error = 0.00660375
+Time = 8199 ms
+
+Results inconclusive - the schedules are similar to one another and the overhead is small compared to
+the large statistical errorbar of repeated measurements.

@@ -27,6 +27,7 @@ int main() {
   auto start = high_resolution_clock::now();
 
   // Iterate over entire domain
+  #pragma omp parallel for private(z,c) reduction(+: n_outside) collapse(2) schedule(runtime)
   for(int i=0; i<NPOINTS; ++i) 
   {
     for(int j=0; j<NPOINTS; ++j) 
@@ -57,7 +58,7 @@ int main() {
   double area = 2.0*2.5*1.125*prop_inside;
   double error = std::abs(area - 1.506484);
 
-  std::cout << "Area of Mandlebrot set = " << area << std::endl;
+  std::cout << "Area of Mandelbrot set = " << area << std::endl;
   std::cout << "Error = " << error << std::endl;
   std::cout << "Time = " << duration << " ms" << std::endl;
 }
